@@ -8,6 +8,7 @@
       <h3><strong>{{task.title}}</strong></h3>
       {% else %} {{task.title}} {% endif %}
       <p>created: {{task.user.username}}</p>
+      <p>{{task.date_completed | date:'d/m/Y'}}</p>
     </a>
   </li>
   {% endfor %}

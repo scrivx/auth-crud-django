@@ -6,6 +6,7 @@ from django.db import IntegrityError
 from .forms import TaskForm
 from .models import Task
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request) :
@@ -36,6 +37,7 @@ def signup(request) :
       'error' : 'passwords do not match'
     })
 
+@login_required
 def tasks(request):
   tasks = Task.objects.filter(user=request.user, date_completed__isnull=True)
   return render(request, 'tasks.html', {
@@ -43,13 +45,14 @@ def tasks(request):
   })
 
 # para las tareas completadas
+@login_required
 def tasks_completed(request):
-  tasks = Task.objects.filter(user=request.user, date_completed__isnull=True)
+  tasks = Task.objects.filter(user=request.user, date_completed__isnull=False).order_by('-date_completed')
   return render(request, 'tasks.html', {
     'tasks' : tasks
   })
 
-
+@login_required
 def create_task(request):
   if request.method == 'GET':
     return render(request, 'create.task.html', {
@@ -68,6 +71,7 @@ def create_task(request):
         'error' : 'Please provide valida data'
       })      
 
+@login_required
 def task_detail(request, task_id):
   if request.method == 'GET':
     # tasks = Task.objects.get(pk=task_id) -> una forma de usar (poco eficiente)
@@ -87,6 +91,7 @@ def task_detail(request, task_id):
         'error' : 'Error updating task' 
       })
 
+@login_required
 def task_complete(request, task_id):
   task = get_object_or_404(Task, pk=task_id, user=request.user)
   if request.method == 'POST':
@@ -94,13 +99,14 @@ def task_complete(request, task_id):
     task.save()
     return redirect('tasks')
 
+@login_required
 def task_delete(request, task_id):
   task = get_object_or_404(Task, pk=task_id, user=request.user)
   if request.method == 'POST':
     task.delete()
     return redirect('tasks')
     
-
+@login_required
 def signout(request):
   logout(request)
   return redirect('home')

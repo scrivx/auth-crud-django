@@ -8,18 +8,19 @@
   <body>
     <nav>
       <ul>
-        <li><a href="/">Home</a></li>
-        {% if user.is_authenticated %}
-        <li><a href="/tasks">Tasks</a></li>
-        <li><a href="/tasks/create/">Create Task</a></li>
-        <li><a href="/logout">Logout</a></li>
-        {% else %}
-        <li><a href="/signup">Signup</a></li>
-        <li><a href="/signin">Signin</a></li>
-        {% endif %}
+        <li>
+          <a href="/">Home</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'tasks'%}">Tasks Pending</a></li>
+            <li><a href="{% url 'tasks_completed'%}">Tasks Completed</a></li>
+            <li><a href="{% url 'create_task'%}">Create Task</a></li>
+            <li><a href="{% url 'signout'%}">Logout</a></li>
+          {% else %}
+            <li><a href="{% url 'signup'%}">Signup</a></li>
+            <li><a href="{% url 'signin'%}">Signin</a></li>
+          {% endif %}
       </ul>
     </nav>
-    {% block content %} 
-    {% endblock %}
+    {% block content %} {% endblock %}
   </body>
 </html>
