@@ -1,16 +1,105 @@
-{% extends 'base.html' %} {% block content %}
-<h1>Tasks Pending</h1>
-<ul>
-  {% for task in tasks %}
-  <li>
-    <a href="{% url 'task_detail' task.id %}">
-      {% if task.important %}
-      <h3><strong>{{task.title}}</strong></h3>
-      {% else %} {{task.title}} {% endif %}
-      <p>created: {{task.user.username}}</p>
-      <p>{{task.date_completed | date:'d/m/Y'}}</p>
-    </a>
-  </li>
-  {% endfor %}
-</ul>
+{% extends 'base.html' %} 
+{% block content %}
+  <main class="container py-5">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h1 class="text-center">Task Pending</h1>
+        {% for task in tasks %}
+        <!-- Card de tarea -->
+        <div class="task" draggable="true">
+          <div class="d-flex justify-content-between">
+            <!-- Título -->
+            <a href="{% url 'task_detail' task.id %}">
+              <span class="title">
+                {% if task.important %}
+                <strong>{{ task.title }}</strong>
+                {% else %} {{ task.title }} {% endif %}
+              </span>
+            </a>
+            <!-- Etiquetas -->
+            <div class="tags">
+              {% if task.important %}
+              <span class="tag">Important</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Descripción -->
+          <p>{{ task.description|default:"Sin descripción" }}</p>
+
+          <!-- Autor y fecha -->
+          <div class="stats">
+            <div>{{ task.user.username }}</div>
+            <div class="viewer">
+              {% if task.date_completed %} {{ task.date_completed|date:"d/m/Y" }}
+              {% else %} Pendiente {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </main>
+
+  <style>
+    .task {
+      position: relative;
+      color: #2e2e2f;
+      background-color: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
+      margin-bottom: 1rem;
+      border: 3px dashed transparent;
+    }
+
+    .title {
+      font-weight: 600;
+      color: rgb(31 41 55);
+    }
+
+    .task:hover {
+      box-shadow: rgba(99, 99, 99, 0.3) 0px 2px 8px 0px;
+    }
+
+    .task p {
+      font-size: 15px;
+      margin: 1.2rem 0;
+    }
+
+    .tag {
+      border-radius: 100px;
+      padding: 4px 13px;
+      font-size: 12px;
+      color: #ffffff;
+      background-color: #13eb62;
+    }
+
+    .tags {
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stats {
+      position: relative;
+      width: 100%;
+      color: #9fa4aa;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stats div {
+      margin-right: 1rem;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    a {
+      text-decoration: none;
+    }
+  </style>
 {% endblock %}

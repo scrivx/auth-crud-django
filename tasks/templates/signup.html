@@ -1,9 +1,41 @@
-{% extends 'base.html' %}
-{% block content %}
-<h1>Signup</h1>
-{{error}}
-<form action="/signup/" method="POST">
-  {% csrf_token %} {{form.as_p}}
-  <button>Signup</button>
-</form>
+{% extends 'base.html' %} {% block content %}
+<div class="container py-5">
+  <div class="col-md-4 offset-md-4">
+    <form method="POST" class="card card-body">
+      <h1 class="text-center m-3">Signup</h1>
+      {{error}} {% csrf_token %}
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          name="username"
+          id="username"
+          placeholder="write your username"
+        />
+        <label for="username">Username</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="password"
+          class="form-control"
+          name="password1"
+          id="password1"
+          placeholder="Wrire your password"
+        />
+        <label for="password1">Password</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input
+          type="password"
+          class="form-control"
+          name="password2"
+          id="password2"
+          placeholder="Write your password again"
+        />
+        <label for="password2"> Confirm Password</label>
+      </div>
+      <button class="btn btn-outline-success">Signup</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

@@ -1,22 +1,173 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %} {% block content %}
+<main class="container py-5">
+  <div class="modal m-auto">
+    <div class="modal__header">
+      <span class="modal__title">Update Task</span>
+    </div>
 
-{% block content %}
-  <h1>{{ task.title }}</h1>
-  {{error}}
-  <form method="POST">
-    {% csrf_token %} 
-    {{form.as_p}}
-    <button>Update</button>
-  </form>
+    <!-- Formulario para actualizar -->
+    <form method="POST">
+      {% csrf_token %}
+      <div class="modal__body">
+        <!-- Campo Título -->
+        <div class="input">
+          <label class="input__label" for="{{ form.title.id_for_label }}"
+            >Title</label
+          >
+          {{ form.title }}
+          <p class="input__description">
+            The title must contain a maximum of 32 characters
+          </p>
+        </div>
 
-  <form action="{% url 'task_complete' task.id %}" method="POST">
-    {% csrf_token %}
-    <button>Complete</button>
-  </form>
+        <!-- Campo Descripción -->
+        <div class="input">
+          <label class="input__label" for="{{ form.description.id_for_label }}"
+            >Description</label
+          >
+          {{ form.description }}
+          <p class="input__description">
+            Give your project a good description so everyone knows what's it for
+          </p>
+        </div>
 
-  <form action="{% url 'task_complete' task.id %}" method="POST">
-    {% csrf_token %}
-    <button>Delete</button>
-  </form>
+        <!-- Campo Importante con toggle -->
+        <div class="input">
+          <label class="input__label">Important</label>
+          <label class="switch">
+            {{ form.important }}
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="button button--primary">Update</button>
+      </div>
+    </form>
 
+    <!-- Botones de acciones adicionales -->
+    <div class="modal__footer">
+      <!-- Marcar como completa -->
+      <form action="{% url 'task_complete' task.id %}" method="POST" style="display: inline-block">
+        {% csrf_token %}
+        <button class="button button--primary" style="background-color: #4fd978">Complete</button>
+      </form>
+
+      <!-- Eliminar -->
+      <form action="{% url 'task_delete' task.id %}" method="POST" style="display: inline-block">
+        {% csrf_token %}
+        <button class="button button--primary" style="background-color: #d9534f">
+          Delete
+        </button>
+      </form>
+    </div>
+  </div>
+</main>
+<style>
+  .button {
+    font: inherit;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  .modal {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    background-color: #fff;
+    box-shadow: 0 15px 30px 0 rgba(0, 125, 171, 0.15);
+    border-radius: 10px;
+  }
+
+  .modal__header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal__body {
+    padding: 1rem 1rem;
+  }
+
+  .modal__footer {
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  .modal__title {
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.15s ease;
+  }
+
+  .button--icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: transparent;
+    border-radius: 0.25rem;
+  }
+
+  .button--icon:focus,
+  .button--icon:hover {
+    background-color: #ededed;
+  }
+
+  .button--primary {
+    background-color: #007dab;
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  .button--primary:hover {
+    background-color: #006489;
+  }
+
+  .input {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input__label {
+    font-weight: 700;
+    font-size: 0.875rem;
+  }
+
+  .input__field {
+    display: block;
+    margin-top: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    padding: 0.75rem 0.75rem;
+    transition: 0.15s ease;
+  }
+
+  .input__field:focus {
+    outline: none;
+    border-color: #007dab;
+    box-shadow: 0 0 0 1px #007dab, 0 0 0 4px rgba(0, 125, 171, 0.25);
+  }
+
+  .input__field--textarea {
+    min-height: 100px;
+    max-width: 100%;
+  }
+
+  .input__description {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    color: #8d8d8d;
+  }
+</style>
 {% endblock %}
