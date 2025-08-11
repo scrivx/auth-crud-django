@@ -3,7 +3,11 @@
   <div class="col-md-4 offset-md-4">
     <form method="POST" class="card card-body">
       <h1 class="text-center m-3">Signup</h1>
-      {{error}} {% csrf_token %}
+      {% if error %}
+      <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <div>{{ error }}</div>
+      </div>
+      {% endif %} {% csrf_token %}
       <div class="form-floating mb-3">
         <input
           type="text"
