@@ -81,8 +81,10 @@ WSGI_APPLICATION = 'crud_project.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default='postgresql://postgres:postgres@localhost:5432/crud_project',
+        default=os.getenv(
+            'DATABASE_URL',              # Producción usa esta var
+            f"sqlite:///{BASE_DIR / 'db.sqlite3'}"  # Desarrollo usa SQLite
+        ),
         conn_max_age=600
     )
 }
