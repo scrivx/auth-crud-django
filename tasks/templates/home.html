@@ -1,34 +1,26 @@
 {% extends 'base.html' %} {% block content %}
+
 <main class="container py-5">
-  <div class="card border-primary mb-3">
-    <div class="card-header display-4 text-center">Django APP (Tasks)</div>
-    <div class="card-body text-primary">
-      <h5 class="card-title">Management Tasks</h5>
-      <p class="card-text">
-        lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum. lorem ipsum dolor sit amet, consectetur
-        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-        in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-        qui officia deserunt
+  <div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+      <h1 class="fw-semibold mb-3">
+        Gestiona tus tareas <br />
+        <span class="text-success">Sencillo, rápido y organizado</span>
+      </h1>
+
+      <p class="text-muted mb-4">
+        Una aplicación minimalista de gestión de tareas creada con Django.
+        Controla tus tareas pendientes y completadas sin distracciones.
       </p>
 
-      <div class="text-center">
-        <a type="button" class="btn btn-primary btn-sm" href="/signin/"
-          >Signin</a
-        >
-        <a type="button" class="btn btn-primary btn-sm" href="/signup/"
-          >Signup</a
-        >
+      <div class="d-flex justify-content-center gap-3">
+        <a href="/signin/" class="btn btn-success px-4"> Iniciar Sesión </a>
+        <a href="/signup/" class="btn btn-outline-success px-4">
+          Crear cuenta
+        </a>
       </div>
     </div>
   </div>
-  {% endblock %}
 </main>
+
+{% endblock %}
