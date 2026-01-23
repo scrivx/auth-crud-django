@@ -1,105 +1,60 @@
-{% extends 'base.html' %} 
-{% block content %}
-  <main class="container py-5">
-    <div class="row">
-      <div class="col-md-6 offset-md-3">
-        <h1 class="text-center">Task Pending</h1>
-        {% for task in tasks %}
-        <!-- Card de tarea -->
-        <div class="task" draggable="true">
-          <div class="d-flex justify-content-between">
-            <!-- Título -->
-            <a href="{% url 'task_detail' task.id %}">
-              <span class="title">
-                {% if task.important %}
-                <strong>{{ task.title }}</strong>
-                {% else %} {{ task.title }} {% endif %}
-              </span>
-            </a>
-            <!-- Etiquetas -->
-            <div class="tags">
-              {% if task.important %}
-              <span class="tag">Important</span>
-              {% endif %}
-            </div>
-          </div>
+{% extends 'base.html' %} {% block content %}
 
-          <!-- Descripción -->
-          <p>{{ task.description|default:"Sin descripción" }}</p>
-
-          <!-- Autor y fecha -->
-          <div class="stats">
-            <div>{{ task.user.username }}</div>
-            <div class="viewer">
-              {% if task.date_completed %} {{ task.date_completed|date:"d/m/Y" }}
-              {% else %} Pendiente {% endif %}
-            </div>
-          </div>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="mb-0">Tareas pendientes</h2>
+          <p class="text-muted mb-0">
+            Tareas que todavía necesitan tu atención
+          </p>
         </div>
-        {% endfor %}
+
+        <a href="{% url 'create_task' %}" class="btn btn-success btn-sm">
+          + Nueva tarea
+        </a>
       </div>
+
+      {% if tasks %} {% for task in tasks %}
+      <a href="{% url 'task_detail' task.id %}" class="task-card">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h6 class="mb-1 {% if task.important %}text-success{% endif %}">
+              {{ task.title }}
+            </h6>
+
+            {% if task.description %}
+            <p class="task-desc">{{ task.description|truncatechars:100 }}</p>
+            {% endif %}
+          </div>
+
+          {% if task.important %}
+          <span class="badge bg-success bg-opacity-10 text-success">
+            Importante
+          </span>
+          {% endif %}
+        </div>
+
+        <div class="task-meta">
+          <span>@{{ task.user.username }}</span>
+          <span>Pendiente</span>
+        </div>
+      </a>
+      {% endfor %} {% else %}
+      <!-- Empty state -->
+      <div class="auth-card p-5 text-center">
+        <h5>No hay tareas pendientes 🎉</h5>
+        <p class="text-muted">
+          ¡Estás todo listo. Crea una nueva tarea cuando estés lista.
+        </p>
+        <a href="{% url 'create_task' %}" class="btn btn-success btn-sm">
+          Crea tu primera tarea
+        </a>
+      </div>
+      {% endif %}
     </div>
-  </main>
+  </div>
+</div>
 
-  <style>
-    .task {
-      position: relative;
-      color: #2e2e2f;
-      background-color: #fff;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
-      margin-bottom: 1rem;
-      border: 3px dashed transparent;
-    }
-
-    .title {
-      font-weight: 600;
-      color: rgb(31 41 55);
-    }
-
-    .task:hover {
-      box-shadow: rgba(99, 99, 99, 0.3) 0px 2px 8px 0px;
-    }
-
-    .task p {
-      font-size: 15px;
-      margin: 1.2rem 0;
-    }
-
-    .tag {
-      border-radius: 100px;
-      padding: 4px 13px;
-      font-size: 12px;
-      color: #ffffff;
-      background-color: #13eb62;
-    }
-
-    .tags {
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .stats {
-      position: relative;
-      width: 100%;
-      color: #9fa4aa;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .stats div {
-      margin-right: 1rem;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    a {
-      text-decoration: none;
-    }
-  </style>
 {% endblock %}
